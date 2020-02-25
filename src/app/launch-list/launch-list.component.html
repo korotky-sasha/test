@@ -1,8 +1,15 @@
 <ng-container *ngIf="pastLaunches$ | async as pastLaunches">
   <main>
+    <div
+      *ngIf="listLoading$ | async"
+      style="height: 100%; width: 100%; position: absolute; display: flex; text-align: center;">
+      <div style="margin-top: auto; margin-bottom: auto; width: 100%;">
+        <span style="font-size: 48px;">Loading</span>
+      </div>
+    </div>
     <section class="container">
       <mat-card
-        *ngFor="let launch of pastLaunches"
+        *ngFor="let launch of pastLaunches, index as i"
         [routerLink]="['/', launch.id]"
       >
         <mat-card-header>
@@ -11,20 +18,33 @@
             width="50"
             mat-card-avatar
             loading="lazy"
+            (error)="invalidImage($event)"
             [src]="launch.links.mission_patch_small"
             alt="Mission patch of {{ launch.mission_name }}"
           />
           <mat-card-title>{{ launch.mission_name }}</mat-card-title>
           <mat-card-subtitle
             >{{ launch.rocket.rocket_name }} - launched
-            {{ launch.launch_date_utc }}</mat-card-subtitle
+            {{ launch.launch_date_utc | relativeTime }}</mat-card-subtitle
           >
         </mat-card-header>
+        <div *ngIf="!launchesLoaded[i]" style="position: relative;">
+          <span style="position: absolute;">Loading...</span>
+          <img
+            height="300"
+            width="300"
+            mat-card-image
+            [src]="'assets/img/image-placeholder.jpg'"
+            alt="Loading placeholder"
+          />
+        </div>
         <img
           height="300"
           width="300"
           mat-card-image
           loading="lazy"
+          (error)="invalidImage($event)"
+          (load)="imgLoaded(i)"
           [src]="launch.links.flickr_images[0]"
           alt="Photo of {{ launch.mission_name }}"
         />

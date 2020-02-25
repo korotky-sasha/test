@@ -1,29 +1,50 @@
 <ng-container *ngIf="launchDetails$ | async as launchDetails">
-  <section style="padding-top: 20px;">
-    <mat-card style="width: 400px; margin: auto;">
-      <mat-card-header>
-        <mat-card-title>{{ launchDetails.mission_name }}</mat-card-title>
-      </mat-card-header>
-      <img
-        height="256"
-        width="256"
-        mat-card-image
-        [src]="launchDetails.links.mission_patch"
-        alt="Mission patch of {{ launchDetails.mission_name }}"
-      />
-      <mat-card-content>
-        <p>{{ launchDetails.details }}</p>
-      </mat-card-content>
-    </mat-card>
-  </section>
-  <section class="photo-grid">
-    <img
-      *ngFor="let pic of launchDetails.links.flickr_images"
-      [src]="pic"
-      alt="Picture of {{ launchDetails.mission_name }}"
-      height="300"
-      width="300"
-      loading="lazy"
-    />
-  </section>
+  <div *ngIf="launchDetails.links" class="col" style="height: 100%;">
+    <div class="row header">
+      <span (click)="router.navigate(['../'])" class="slider-button"><</span>
+      <div class="title">{{launchDetails.mission_name}}</div>
+    </div>
+    <div class="row content">
+      <mat-card class="card">
+        <img
+          height="256"
+          width="256"
+          [src]="launchDetails.links.mission_patch"
+          alt="Mission patch of {{ launchDetails.mission_name }}"
+        />
+        <mat-card-content>
+          <p class="card-content">{{ launchDetails.details }}</p>
+        </mat-card-content>
+      </mat-card>
+      <div *ngIf="launchDetails.links.flickr_images" class="col gallery">
+        <div class="selected-image-container">
+          <img
+            [src]="launchDetails.links.flickr_images[selectedImage]"
+            alt="Picture of {{ launchDetails.mission_name }}"
+            loading="lazy"
+            class="selected-image"
+          />
+        </div>
+        <div class="row" style="height: 40%;">
+        <span
+          (click)="selectPrevImage(launchDetails.links.flickr_images)"
+          class="slider-button"><</span>
+          <div class="row" style="overflow: auto;">
+            <img
+              *ngFor="let pic of launchDetails.links.flickr_images, index as i"
+              [src]="pic"
+              alt="Picture of {{ launchDetails.mission_name }}"
+              (click)="selectImage(i)"
+              loading="lazy"
+              class="img"
+              [ngClass]="selectedImage === i ? 'selected' : ''"
+            />
+          </div>
+          <span
+            (click)="selectNextImage(launchDetails.links.flickr_images)"
+            class="slider-button">></span>
+        </div>
+      </div>
+    </div>
+  </div>
 </ng-container>

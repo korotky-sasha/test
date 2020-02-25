@@ -1,7 +1,78 @@
-.photo-grid {
-  padding-top: 30px;
-  display: grid;
-  grid-gap: 10px;
-  grid-template-columns: repeat(auto-fill, 300px);
+.row {
+  display: flex;
+  flex-direction: row;
+}
+
+.col {
+  display: flex;
+  flex-direction: column;
+}
+
+.header {
+  position: absolute;
+  height: 75px;
+  margin: auto 20px;
+}
+
+.title {
+  font-size: 36px;
+  margin-top: auto;
+  margin-bottom: auto;
+}
+
+.content {
+  height: 100%;
+  padding: 120px 20px 20px;
+  box-sizing: border-box;
+}
+
+.card {
+  width: 50%;
+  margin-top: auto;
+  margin-bottom: auto;
+  margin-right: 20px;
+  text-align: center;
+  border-top: 5px solid black;
+  border-bottom: 5px solid black;
+  border-left: 2px solid black;
+  border-right: 2px solid black;
+}
+
+.card-content {
+  text-align: justify;
+  font-weight: bold;
+}
+
+.gallery {
+  width: 50%;
+}
+
+.selected-image-container {
+  display: flex;
   justify-content: center;
+  height: 60%;
+}
+
+.selected-image {
+  max-height: 100%;
+  max-width: 100%;
+}
+
+.img {
+  padding: 10px;
+  width: 33%;
+  box-sizing: border-box;
+  cursor: pointer;
+}
+
+.selected {
+  border: 2px solid aqua;
+}
+
+.slider-button {
+  font-size: 64px;
+  margin-top: auto;
+  margin-bottom: auto;
+  cursor: pointer;
+  user-select: none;
 }
